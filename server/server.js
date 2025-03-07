@@ -5,13 +5,30 @@ import dotenv from "dotenv";
 import errorHandler from "./middleware/errorHandler.js";
 import 'colors';
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+
 // Load environment variables
 dotenv.config();
 
-// Connect to database
+// Initialize express app
+const app = express();
+
+// Connect to the database
 connectDB();
 
-const app = express();
+// Serve static files from React frontend
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
+// Catch-all route to serve React index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
+});
+
+// Middlewares
 app.use(express.json());
 app.use(cors());
 
@@ -27,8 +44,8 @@ app.use("/api/bookings", bookingRoutes);
 // Error handling middleware
 app.use(errorHandler);
 
+// Start the server
 const PORT = process.env.PORT || 5001;
-
 app.listen(PORT, () =>
   console.log(`Server running on port ${PORT}`.green.bold)
 );
