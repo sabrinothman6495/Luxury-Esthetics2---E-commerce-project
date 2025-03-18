@@ -3,16 +3,20 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "scripts": {
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "dev": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\"",
-    "start": "concurrently \"npm run start --prefix client\" \"npm run start --prefix server\""
-  },
+"scripts": {
+  "build": "react-scripts build",
+  "test": "react-scripts test",
+  "eject": "react-scripts eject",
+  "dev": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\"",
+  "start": "concurrently \"npm run start:client\" \"npm run start:server\"",
+  "start:client": "cd client && npm start",
+  "start:server": "cd server && node server.js"
+},
   "dependencies": {
     "@tailwindcss/postcss": "^4.0.11",
+    "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
+    "colors": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.17.1",
